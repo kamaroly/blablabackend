@@ -148,7 +148,8 @@ return [
         /**
          * Third parties service providers
          */
-        
+        Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider::class,
+         Sentinel\SentinelServiceProvider::class, 
 
     ],
 
