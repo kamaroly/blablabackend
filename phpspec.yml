@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Imbehe
+        psr4_prefix: Imbehe
+        src_path: app
