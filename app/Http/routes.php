@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: X-Authorization");
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +18,10 @@
 Route::get('/',['as'=>'home','uses'=> function () {
     return view('welcome');
 }]);
+
+Route::group(['prefix' => 'api'], function () {
+	Route::get('/auth/msisdn/{msisdn}', '\Imbehe\Http\Controllers\Auth\AuthController@registerMsisdn')
+	->where('msisdn', '[0-9]+');
+	Route::get('/auth/code/{msisdn}/{code}', '\Imbehe\Http\Controllers\Auth\AuthController@verifyCode')
+	->where('msisdn', '[0-9]+');
+});

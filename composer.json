@@ -10,7 +10,8 @@
         "chrisbjr/api-guard": "^2.3",
         "rydurham/sentinel": "^2.2",
         "ircmaxell/password-compat": "^1.0",
-        "happydemon/txt": "^1.0"
+        "happydemon/txt": "^1.0",
+        "guzzlehttp/guzzle": "^6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

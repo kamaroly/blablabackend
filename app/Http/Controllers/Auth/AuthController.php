@@ -1,65 +1,52 @@
 <?php
-
 namespace Imbehe\Http\Controllers\Auth;
-
-use Imbehe\User;
-use Validator;
 use Imbehe\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-
-class AuthController extends Controller
-{
-    /*
-    |--------------------------------------------------------------------------
-    | Registration & Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
-    |
-    */
-
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
-
-    /**
-     * Create a new authentication controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest', ['except' => 'getLogout']);
+use Imbehe\Services\SendNotification\SmsSendNotification;
+use Imbehe\Subscriber;
+use Hash;
+class AuthController extends Controller {
+    protected $sendNotification;
+    function __construct(SmsSendNotification $sendNotification, Subscriber $subscriber) {
+        $this->sendNotification = $sendNotification;
+        $this->subscriber = $subscriber;
     }
-
     /**
-     * Get a validator for an incoming registration request.
+     * Create a new subscriber instance after a valid registration.
      *
      * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return subscriber
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
+    public function registerMsisdn($msisdn) {
+        // Generate the token
+        $rememberToken = $msisdn . Hash::make($msisdn);
+        // Prepare data and insert in the model
+        $data = [
+            'msisdn' => $msisdn,
+            'code' => rand(10000, 99999),
+            'remember_token' => $rememberToken,
+        ];
+        $this->subscriber->createOrUpdate($data);
+        // Send verification code
+        $this->sendSms($data);
+        // Return generated token
+        return $rememberToken;
     }
-
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
+     * Code verification
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+    public function verifyCode($msisdn, $code) {
+        // Prepare data
+        $data = [
+            'msisdn' => $msisdn,
+            'code' => $code,
+        ];
+        return (string) $this->subscriber->isValidCode($data);
+    }
+    private function sendSms($data) {
+        $message = 'Your code is:' . $data['code'] . ' to verify your MobiApp  account.';
+        while (!$this->sendNotification->send($data['msisdn'], $message)) {
+            $this->sendNotification->send($data['msisdn'], $message);
+        }
+        return true;
     }
 }
