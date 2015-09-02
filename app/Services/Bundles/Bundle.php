@@ -1,10 +1,11 @@
-<?php namespace Imbehe\Services\SendNotification;
+<?php 
+namespace Imbehe\Services\Bandles;
 use GuzzleHttp\Client;
 use Imbehe\Services\MiddleWare;
 /**
  * SendSms notification
  */
-class SmsSendNotification extends MiddleWare{
+class Bundle extends MiddleWare{
 	protected $url = "http://10.138.84.138:8002/osb/services/SendNotification_1_0";
 	protected $username='test_mw_osb';
 	protected $password='tigo1234';

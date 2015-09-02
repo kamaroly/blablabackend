@@ -42,9 +42,16 @@ class AuthController extends Controller {
         ];
         return (string) $this->subscriber->isValidCode($data);
     }
+
+    /**
+     * Send sms to the registered person
+     * @param  [type] $data [description]
+     * @return [type]       [description]
+     */
     private function sendSms($data) {
-        $message = 'Your code is:' . $data['code'] . ' to verify your MobiApp  account.';
+        $message = 'Your code is:' . $data['code'] . ' to verify your imbeheApp account.';
         while (!$this->sendNotification->send($data['msisdn'], $message)) {
+            sleep(1);
             $this->sendNotification->send($data['msisdn'], $message);
         }
         return true;
