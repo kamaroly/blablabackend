@@ -90,7 +90,7 @@ passed in the request along with all the header elements and optional elements--
 	public function cleanResponse($response)
 	{
 	 preg_match($this->RegexPattern,$response,$aMatch);
-	  dd($aMatch);
+	 return $aMatch;
 	}
 
 }

@@ -76,7 +76,7 @@ passed in the request along with all the header elements and optional elements--
             </v1:additionalParameters>            
             <v1:externalTransactionId>1234</v1:externalTransactionId>
             <!--Optional:-->
-            <v1:comment>Send Notification</v1:comment>
+            <v1:comment>Imbehe Notification</v1:comment>
          </v1:RequestBody>
       </v1:SendNotificationRequest>
    </soapenv:Body>
