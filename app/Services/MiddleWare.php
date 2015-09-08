@@ -5,7 +5,11 @@ namespace Imbehe\Services;
  * Middle ware parent classe
  */
  class MiddleWare
- {
+ {  
+  protected $url = "http://10.138.84.138:8002/osb/services/SendNotification_1_0";
+  protected $username='test_mw_osb';
+  protected $password='tigo1234';
+  protected $RegexPattern = "/<cmn\:description>(.*?)<\/cmn\:description>/s";
  	
       /**
        * Send request to the SOAP server
@@ -23,7 +27,7 @@ namespace Imbehe\Services;
           curl_setopt($soap_do, CURLOPT_POST,           true ); 
           curl_setopt($soap_do, CURLOPT_POSTFIELDS,    $this->request); 
           curl_setopt($soap_do, CURLOPT_HTTPHEADER,     array('Content-Type: text/xml; charset=utf-8', 'Content-Length: '.strlen($this->request) )); 
-          curl_setopt($soap_do, CURLOPT_USERPWD,$this->username . ":" . $password="tigo1234");
+          curl_setopt($soap_do, CURLOPT_USERPWD,$this->username . ":" . $this->password);
           
           $result = curl_exec($soap_do);
       // Check if we have error in sending this request

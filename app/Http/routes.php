@@ -23,4 +23,15 @@ Route::group(['prefix' => 'api'], function () {
 	->where('msisdn', '[0-9]+');
 	Route::get('/auth/code/{msisdn}/{code}', '\Imbehe\Http\Controllers\Auth\AuthController@verifyCode')
 	->where('msisdn', '[0-9]+');
+
+	/** MFS PAYMENT */
+	Route::get('/payments/mfs/{msisdn}/{amount}/{code}/{company}', '\Imbehe\Http\Controllers\PaymentController@payWithMfs')
+	->where('msisdn', '[0-9]+')
+	->where('amount', '[0-9]+')
+	->where('code', '[0-9]+');
+
+	/** FULLFILMENT PAYMENT */
+	Route::get('/payments/airtime/{msisdn}/{code}', '\Imbehe\Http\Controllers\PaymentController@payWithAirtime')
+	->where('msisdn', '[0-9]+')
+	->where('code', '[0-9]+');
 });

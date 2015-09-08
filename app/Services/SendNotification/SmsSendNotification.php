@@ -5,10 +5,6 @@ use Imbehe\Services\MiddleWare;
  * SendSms notification
  */
 class SmsSendNotification extends MiddleWare{
-	protected $url = "http://10.138.84.138:8002/osb/services/SendNotification_1_0";
-	protected $username='test_mw_osb';
-	protected $password='tigo1234';
-	protected $RegexPattern = "/<cmn\:description>(.*?)<\/cmn\:description>/s";
 	protected $request ;
 	public    $receiver ;
 	public    $sender;
