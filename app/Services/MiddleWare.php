@@ -7,9 +7,14 @@ namespace Imbehe\Services;
  class MiddleWare
  {  
   protected $url = "http://10.138.84.138:8002/osb/services/SendNotification_1_0";
-  protected $username='test_mw_osb';
-  protected $password='tigo1234';
+  protected $username;
+  protected $password;
   protected $RegexPattern = "/description>(.*?)<\//s";
+
+  function __construct() {
+    $this->username = env('MW_USERNAME');
+    $this->password = env('MW_PASSWORD');
+  }
  	
       /**
        * Send request to the SOAP server

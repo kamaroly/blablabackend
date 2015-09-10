@@ -12,6 +12,9 @@ class Bundle extends MiddleWare
    protected $customerId;
    protected $productId;
 
+function __construct() {
+   parent::__construct();
+}
    /**
  * Send SMS 
  * @param  string $customerId the person who is buying the pack e.g 250722123127

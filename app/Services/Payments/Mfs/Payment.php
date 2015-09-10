@@ -13,6 +13,10 @@ class Payment extends MiddleWare
 	protected $sender;
 	protected $pin;
 	protected $amount;
+   
+   function __construct() {
+   parent::__construct();
+}
 
 /**
  * PAY 
