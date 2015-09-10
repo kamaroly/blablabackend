@@ -23,7 +23,12 @@ public function send($receiver,$message,$sender ='Imbehe')
 	$this->sender = $sender;
 	$this->message = $message;
 	$this->makeRequest();
-	return $this->sendRequest();
+	$results = $this->sendRequest();
+   // Check if we have error in sending this request
+   if (strpos($results,'OK')) {
+      return true;
+   }
+   return false;
 }
 /**
  * Send SMS notification
@@ -77,16 +82,4 @@ passed in the request along with all the header elements and optional elements--
    </soapenv:Body>
 </soapenv:Envelope>';
       }
-
-	/**
-	 * Clean the response return by the soap server
-	 * @param  string $response [description]
-	 * @return [type]           [description]
-	 */
-	public function cleanResponse($response)
-	{
-	 preg_match($this->RegexPattern,$response,$aMatch);
-	 return $aMatch;
-	}
-
 }

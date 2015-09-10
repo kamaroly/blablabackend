@@ -17,11 +17,18 @@ class PaymentController extends Controller
      */
     public function payWithMfs($msisdn,$amount,$code,$company, Payment $payment)
     {
-        dd($payment->pay($msisdn,$amount,$code,$company));
+        return $payment->pay($msisdn,$amount,$code,$company);
     }
 
+    /**
+     * [payWithAirtime description]
+     * @param  string $msisdn msisdn to be charged
+     * @param  string $code   product code
+     * @param  Bundle $bundle Bundle service
+     * @return string         results
+     */
     public function payWithAirtime($msisdn,$code,Bundle $bundle)
     {
-        dd($bundle->buy($msisdn,$code));
+        return $bundle->buy($msisdn,$code);
     }
 }

@@ -22,10 +22,10 @@ public function buy($customerId,$productId)
 {
    $this->customerId = $customerId;
    $this->productId = $productId;
+   $this->makeRequest();   
+   $response =  $this->sendRequest();
 
-   $this->makeRequest();
-   
-   return $this->sendRequest();
+   return $this->cleanResponse($response);
 }
 /**
  * Make the Fullfillment engine request
@@ -58,7 +58,7 @@ $this->request = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/so
             <v1:channelId>2</v1:channelId>
             <v1:payingCustomerID>'.$this->customerId.'</v1:payingCustomerID>
             <v1:fulfillmentCustomerID>'.$this->customerId.'</v1:fulfillmentCustomerID>
-            <v1:productId>1</v1:productId>
+            <v1:productId>'.$this->productId.'</v1:productId>
             <!--Optional:-->
             <v1:externalTransactionID>'.$this->customerId.time().'</v1:externalTransactionID>
             <!--Optional:-->

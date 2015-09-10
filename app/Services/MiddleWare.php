@@ -9,7 +9,7 @@ namespace Imbehe\Services;
   protected $url = "http://10.138.84.138:8002/osb/services/SendNotification_1_0";
   protected $username='test_mw_osb';
   protected $password='tigo1234';
-  protected $RegexPattern = "/<cmn\:description>(.*?)<\/cmn\:description>/s";
+  protected $RegexPattern = "/description>(.*?)<\//s";
  	
       /**
        * Send request to the SOAP server
@@ -29,12 +29,19 @@ namespace Imbehe\Services;
           curl_setopt($soap_do, CURLOPT_HTTPHEADER,     array('Content-Type: text/xml; charset=utf-8', 'Content-Length: '.strlen($this->request) )); 
           curl_setopt($soap_do, CURLOPT_USERPWD,$this->username . ":" . $this->password);
           
-          $result = curl_exec($soap_do);
-      // Check if we have error in sending this request
-      if (strpos($result,'OK')) {
-      	return true;
-      }
-      return false;
+          return  curl_exec($soap_do);
+   
 	}   
+
+  /**
+   * Clean the response return by the soap server
+   * @param  string $response [description]
+   * @return [type]           [description]
+   */
+  public function cleanResponse($response)
+  {
+   preg_match($this->RegexPattern,$response,$aMatch);
+   return isset($aMatch[1]) ? $aMatch[1] : $aMatch;
+  }
 
  } 
