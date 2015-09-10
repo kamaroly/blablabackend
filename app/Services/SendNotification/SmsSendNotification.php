@@ -8,7 +8,7 @@ class SmsSendNotification extends MiddleWare{
 	protected $request ;
 	public    $receiver ;
 	public    $sender;
-	public    $message
+	public    $message;
 
    function __construct() {
    parent::__construct();
